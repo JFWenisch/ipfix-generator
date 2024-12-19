@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>IPFIX Generator</title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400"
+	rel="stylesheet" />
+<!-- https://fonts.google.com/ -->
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<!-- https://getbootstrap.com/ -->
+<link href="fontawesome/css/all.min.css" rel="stylesheet" />
+<!-- https://fontawesome.com/ -->
+<link href="css/templatemo-diagoona.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
+<!--
+
+TemplateMo 550 Diagoona
+
+https://templatemo.com/tm-550-diagoona
+
+-->
+</head>
+
+<body>
+	<div class="tm-container">
+		<div>
+			<div class="tm-row pt-4">
+				<div class="tm-col-left">
+					<div class="tm-site-header media" >
+
+						<img src="img/logo.png" width="60px" alt="Image"
+							class="tm-service-img">
+						<div class="media-body">
+							<h1 class="tm-sitename text-uppercase" style="font-size: 1.8rem;">IPFIX Generator</h1>
+							<p class="tm-slogon" style="font-size: 0.8rem;">"Your Online
+								Toolbox, Simplified"</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="tm-row">
+				<div class="tm-col-left">
+					<section class="tm-content"
+						style="max-width: 80%; padding-left: 20px;">
+						<div class="row">
+						
+						</div>
+						<div class="row">
+							<h2 class="mb-5 tm-content-title" th:text="${title}"></h2>
+						<p class="mb-5" th:text="${description}"></p>
+						</div>
+					</section>
+				</div>
+				<main class="tm-col-right">
+					<section class="tm-content" style="max-width: 100%;">
+				
+						<form action="/process" method="post">
+						  <div class="form-row">
+  <div class="form-group col-md-8">
+    <label for="exampleInputEmail1">IPFIX collector address</label>
+    <input type="email" class="form-control" id="destHost" aria-describedby="emailHelp" placeholder="10.0.0.2">
+    <small id="emailHelp" class="form-text text-muted">The IP address of the host which should receive the packets</small>
+  </div>
+  <div class="form-group col-md-4">
+    <label for="exampleInputPassword1">IPFIX collector port</label>
+    <input type="password" class="form-control" id="destPort" placeholder="4739">
+  </div>
+  </div>
+    <div class="form-group">
+    <label for="exampleInputPassword1">Observation Domain ID</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="1">
+  </div>
+    <div class="form-group">
+    <label for="exampleFormControlSelect1">Select data template</label>
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>L2IP</option>
+    </select>
+  </div>
+  <div style="padding-top: 20px; padding-bottom: 20px;">
+  <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+    <label class="form-check-label" for="exampleCheck1">Include OptionsTemplate</label>
+  </div>
+  <div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked disabled>
+  <label class="form-check-label" for="defaultCheck2">
+    Randomize data src IP address
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="" id="defaultCheck2" checked disabled>
+  <label class="form-check-label" for="defaultCheck2">
+        Randomize data dst IP address
+  </label>
+</div>
+</div>
+<div style="padding-top:20px">
+  <button type="submit" class="btn btn-primary" style="width:100%">Start generating packets</button>
+  </div>
+</form>
+						
+						<div class="table-responsive fixed-table-body">
+							<table class="table table-bordered table-hover table-striped"
+								style="word-break: break-word; background: white;">
+							
+								<tbody>
+									<tr th:each="entry : ${data}">
+										<td th:text="${entry.key}">Key</td>
+										<td th:text="${entry.value}">Value</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+					</section>
+				</main>
+			</div>
+		</div>
+
+		<div class="tm-row">
+			<div class="tm-col-left" style="margin-left: 20px">
+				<span> <i class="fa fa-external-link fa-1x mt-1 tm-logo"></i>
+					Back to wenisch.tech
+
+				</span>
+
+			</div>
+			<div class="tm-col-right tm-col-footer">
+				<footer class="tm-site-footer text-right">
+					<p class="mb-0" style="font-size: 10px">Developed by 
+						Jean-Fabian Wenisch | wenisch.tech</p>
+				</footer>
+			</div>
+		</div>
+
+		<!-- Diagonal background design -->
+		<div class="tm-bg">
+			<div class="tm-bg-left"></div>
+			<div class="tm-bg-right"></div>
+		</div>
+	</div>
+
+	<script src="js/jquery-3.4.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.backstretch.min.js"></script>
+	<script src="js/templatemo-script.js"></script>
+</body>
+<script src="js/index.js"></script>
+</html>

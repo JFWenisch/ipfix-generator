@@ -1,0 +1,29 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.icon-text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 40px;
+}
+
+.icon-text i {
+	margin-bottom: 10px;
+}
+
+.icon-text a { color: white; }
+
+.icon-text a:hover 
+{
+
+	font-size: 120%; 
+ }
+ 
+ 
+ .icon-text a:active { 
+	color: #5fa8e8;
+  }
