@@ -1,6 +1,7 @@
 package tech.wenisch.ipfix.generator.service;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -27,5 +28,8 @@ public class IPFIXGeneratorService {
 
 	public IPFIXGeneratorJob getJobById(String jobId) {
 		return jobs.get(Integer.valueOf(jobId));
+	}
+	public Collection<IPFIXGeneratorJob> getJobsList() {
+		return jobs.values();
 	}
 }

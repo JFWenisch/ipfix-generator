@@ -14,7 +14,7 @@ import tech.wenisch.ipfix.generator.service.IPFIXGeneratorService;
 import tech.wenisch.ipfix.generator.threads.IPFIXGeneratorJob;
 
 @Controller
-public class HomeController {
+public class GUIController {
 	@Autowired
 	private IPFIXGeneratorService ipfixGeneratorService;
 	
@@ -26,12 +26,17 @@ public class HomeController {
 				"This IPFIX  (IP Flow Information Export) Generator is a tool designed to create and send IPFIX traffic for testing, demonstration, and analysis purposes. It simulates network flow data by generating IPFIX packets, which can be used to test network monitoring systems, analyze network performance, and ensure the accuracy of flow data collection.");
 		return "index";
 	}
-
 	@GetMapping("/jobs/{id}")
 	public String jobDetails(@PathVariable("id") String jobId)
 	{ 
 		IPFIXGeneratorJob job= ipfixGeneratorService.getJobById(jobId);
 		return "jobdetails";
+	}
+
+	@GetMapping("/jobs")
+	public String jobs()
+	{ 
+		return "jobs";
 	}
 
 	@PostMapping("/create")
