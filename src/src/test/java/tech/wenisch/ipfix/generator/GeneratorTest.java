@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import tech.wenisch.ipfix.generator.datastructures.L2IPDataRecord;
 import tech.wenisch.ipfix.generator.datastructures.MessageHeader;
-import tech.wenisch.ipfix.generator.networking.UDPServerRunnable;
+import tech.wenisch.ipfix.generator.threads.UDPServerRunnable;
 
 public class GeneratorTest {
 

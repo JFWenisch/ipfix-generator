@@ -1,4 +1,4 @@
-package tech.wenisch.ipfix.generator.networking;
+package tech.wenisch.ipfix.generator.threads;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
