@@ -1,5 +1,4 @@
-# ipfix-generator
-
+# ipfix-generator ![Build](https://github.com/JFWenisch/ipfix-generator/actions/workflows/build.yml/badge.svg) ![Version](https://img.shields.io/github/v/release/jfwenisch/ipfix-generator) ![License](https://img.shields.io/github/license/jfwenisch/ipfix-generator) ![Size](https://img.shields.io/github/repo-size/jfwenisch/ipfix-generator) 
 ### Overview
 This IPFIX (IP Flow Information Export) Generator is a tool designed to create and send IPFIX traffic for testing, demonstration, and analysis purposes. It simulates network flow data by generating IPFIX packets, which can be used to test network monitoring systems, analyze network performance, and ensure the accuracy of flow data collection.
 
