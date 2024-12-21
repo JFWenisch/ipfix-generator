@@ -12,9 +12,6 @@ The IPFIX Message Generator is a versatile tool designed for generating IPFIX (I
 
 - **Customizable Parameters**: Configure various parameters for IPFIX message generation.
 
-please create a github readme for my project. It generates ipfix messages for testing purposes and has a graphical interface and can also be used via it's API and REST
-Sure! Here's a sample README for your project:
-
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit pull requests.
