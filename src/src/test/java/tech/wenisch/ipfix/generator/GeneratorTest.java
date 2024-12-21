@@ -10,8 +10,9 @@ import java.util.Date;
 
 import org.junit.jupiter.api.Test;
 
-import tech.wenisch.ipfix.generator.datastructures.L2IPDataRecord;
-import tech.wenisch.ipfix.generator.datastructures.MessageHeader;
+import tech.wenisch.ipfix.generator.datastructures.ipfix.L2IPDataRecord;
+import tech.wenisch.ipfix.generator.datastructures.ipfix.MessageHeader;
+import tech.wenisch.ipfix.generator.managers.IPFIXGeneratorManager;
 import tech.wenisch.ipfix.generator.threads.UDPServerRunnable;
 
 public class GeneratorTest {
@@ -29,7 +30,7 @@ public class GeneratorTest {
 		
 		try (DatagramSocket socket = new DatagramSocket())
 		{
-		MessageHeader mh = IPFIXGenerator.createRandomL2IPIPfixMessage();
+		MessageHeader mh = IPFIXGeneratorManager.createRandomL2IPIPfixMessage();
 		L2IPDataRecord l2ip = (L2IPDataRecord) mh.getSetHeaders().get(mh.getSetHeaders().size()-1).getDataRecords().get(0);
 		long seqNumber = 0;
 		int packetsSend = 0;

@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 
 import org.springframework.stereotype.Service;
 
-import tech.wenisch.ipfix.generator.datastructures.pojo.IPFIXGeneratorJobRequest;
+import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobRequest;
 import tech.wenisch.ipfix.generator.threads.IPFIXGeneratorJob;
 
 @Service

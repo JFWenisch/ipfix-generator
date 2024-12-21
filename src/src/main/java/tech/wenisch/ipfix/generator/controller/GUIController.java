@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpServletRequest;
-import tech.wenisch.ipfix.generator.datastructures.pojo.IPFIXGeneratorJobRequest;
+import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobRequest;
 import tech.wenisch.ipfix.generator.service.IPFIXGeneratorService;
 import tech.wenisch.ipfix.generator.threads.IPFIXGeneratorJob;
 
@@ -27,9 +27,10 @@ public class GUIController {
 		return "index";
 	}
 	@GetMapping("/jobs/{id}")
-	public String jobDetails(@PathVariable("id") String jobId)
+	public String jobDetails(@PathVariable("id") String jobId, HttpServletRequest request, Model model)
 	{ 
 		IPFIXGeneratorJob job= ipfixGeneratorService.getJobById(jobId);
+		model.addAttribute("job",job);
 		return "jobdetails";
 	}
 

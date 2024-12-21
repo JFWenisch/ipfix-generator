@@ -4,12 +4,14 @@ import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import tech.wenisch.ipfix.generator.IPFIXGenerator;
-import tech.wenisch.ipfix.generator.datastructures.L2IPDataRecord;
-import tech.wenisch.ipfix.generator.datastructures.MessageHeader;
-import tech.wenisch.ipfix.generator.datastructures.pojo.IPFIXGeneratorJobRequest;
+import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobRequest;
+import tech.wenisch.ipfix.generator.datastructures.ipfix.L2IPDataRecord;
+import tech.wenisch.ipfix.generator.datastructures.ipfix.MessageHeader;
+import tech.wenisch.ipfix.generator.managers.IPFIXGeneratorManager;
 
 public class IPFIXGeneratorJob implements Runnable {
 	String destHost;
@@ -21,11 +23,16 @@ public class IPFIXGeneratorJob implements Runnable {
 	
 	long pps;
 	int totalPackets;
+	int packetsSend;
+	List <String> history = new ArrayList<>();
+
+
 	private volatile boolean active = true;
 	static int jobIDCounter = 1;
 
 
     public IPFIXGeneratorJob(IPFIXGeneratorJobRequest request) {
+    	this.packetsSend=0;
     	this.status="Initializing";
     	this.created = new Date().toString();
         this.id=jobIDCounter;
@@ -34,7 +41,7 @@ public class IPFIXGeneratorJob implements Runnable {
         this.destPort=Integer.valueOf(request.getDestPort());
         this.pps=Long.parseLong(request.getPps());
         this.totalPackets=Integer.valueOf(request.getTotalPackets());
-        this.name=pps+ totalPackets+"packets á "+ pps+ "pps -> "+destHost+":"+destPort;
+        this.name="Sending "+ totalPackets+" to "+destHost+":"+destPort +"("+pps+" PPS)";
 	}
 
 	@Override
@@ -42,10 +49,10 @@ public class IPFIXGeneratorJob implements Runnable {
 		this.status="Running";
 		try (DatagramSocket socket = new DatagramSocket())
 		{
-		MessageHeader mh = IPFIXGenerator.createRandomL2IPIPfixMessage();
+		MessageHeader mh = IPFIXGeneratorManager.createRandomL2IPIPfixMessage();
 		L2IPDataRecord l2ip = (L2IPDataRecord) mh.getSetHeaders().get(mh.getSetHeaders().size()-1).getDataRecords().get(0);
 		long seqNumber = 0;
-		int packetsSend = 0;
+
 		while (packetsSend < totalPackets && active) {
 			// Message header updating
 			mh.setSequenceNumber(seqNumber);
@@ -60,11 +67,13 @@ public class IPFIXGeneratorJob implements Runnable {
 
 			DatagramPacket dp = new DatagramPacket(mh.getBytes(), mh.getBytes().length, InetAddress.getByName(destHost),
 					destPort);
+			history.add(new Date().toString() + " sending "+ mh);
 				System.out.println("Sending: " + mh);
 			socket.send(dp);
 
 			this.status="Sleeping";
 			Thread.sleep(1000/pps);
+			this.status="Running";
 			packetsSend++;
 
 		}
@@ -76,7 +85,15 @@ public class IPFIXGeneratorJob implements Runnable {
 		}
 		this.status="Completed";
     }
-    public void stop() { active = false; }
+    public List<String> getHistory() {
+		return history;
+	}
+
+	public void setHistory(List<String> history) {
+		this.history = history;
+	}
+
+	public void stop() { active = false; }
     public String getCreated() {
 		return created;
 	}
@@ -146,5 +163,12 @@ public class IPFIXGeneratorJob implements Runnable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	public int getPacketsSend() {
+		return packetsSend;
+	}
+
+	public void setPacketsSend(int packetsSend) {
+		this.packetsSend = packetsSend;
 	}
 }

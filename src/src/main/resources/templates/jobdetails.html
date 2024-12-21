@@ -9,19 +9,56 @@
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400"
 	rel="stylesheet" />
 <!-- https://fonts.google.com/ -->
-<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
 <!-- https://getbootstrap.com/ -->
-<link href="fontawesome/css/all.min.css" rel="stylesheet" />
+<link href="/fontawesome/css/all.min.css" rel="stylesheet" />
 <!-- https://fontawesome.com/ -->
-<link href="css/templatemo-diagoona.css" rel="stylesheet" />
-<link href="css/style.css" rel="stylesheet" />
-<!--
+<link href="/css/templatemo-diagoona.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
 
-TemplateMo 550 Diagoona
 
-https://templatemo.com/tm-550-diagoona
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
--->
+<script>
+	$(document)
+			.ready(
+					function() {
+
+						function updateTable() {
+							$
+									.getJSON(
+											'/api/jobs/'
+													+ window.location.pathname
+															.split("/").pop()
+													+ '/history',
+											function(data) {
+												var table = "<ul class='list-group overflow-scroll' style='height: 100%;color:black'>";
+												$
+														.each(
+																data,
+																function(index,
+																		historyitem) {
+
+																	table += "	  <li class='list-group-item' style='height:50px;font-size:10px'>"
+																			+ historyitem
+																			+ "</li>"
+																});
+												table += "</ul>";
+												$("#tableContainer")
+														.html(table);
+											});
+						}
+
+						// Call the updateTable function every 10 seconds (10000 milliseconds)
+						setInterval(updateTable, 2000);
+
+						// Initial call to populate the table immediately
+						updateTable();
+					});
+</script>
+
+
+
 </head>
 
 <body>
@@ -29,142 +66,91 @@ https://templatemo.com/tm-550-diagoona
 		<div>
 			<div class="tm-row pt-4">
 				<div class="tm-col-left">
-					<div class="tm-site-header media" >
+					<div class="tm-site-header media">
 
-						<img src="img/logo.png" width="40px" alt="Image"
+						<img src="/img/logo.png" width="40px" alt="Image"
 							class="tm-service-img">
 						<div class="media-body">
-							<h1 class="tm-sitename text-uppercase" style="font-size: 1.8rem;">IPFIX Generator</h1>
+							<h1 class="tm-sitename text-uppercase" style="font-size: 1.8rem;">IPFIX
+								Generator</h1>
 						</div>
 					</div>
 				</div>
-                <div class="tm-col-right">
-                    <nav class="navbar navbar-expand-lg" id="tm-main-nav">
-                        <button class="navbar-toggler toggler-example mr-0 ml-auto" type="button" 
-                            data-toggle="collapse" data-target="#navbar-nav" 
-                            aria-controls="navbar-nav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span><i class="fas fa-bars"></i></span>
-                        </button>
-                        <div class="collapse navbar-collapse tm-nav" id="navbar-nav">
-                            <ul class="navbar-nav text-uppercase">
-                                <li class="nav-item active">
-                                    <a class="nav-link tm-nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link tm-nav-link" href="jobs.html">Jobs</a>
-                                </li>
-                            
-
-                            </ul>                            
-                        </div>                        
-                    </nav>
-                </div>
+				<div class="tm-col-right">
+					<nav class="navbar navbar-expand-lg" id="tm-main-nav">
+						<button class="navbar-toggler toggler-example mr-0 ml-auto"
+							type="button" data-toggle="collapse" data-target="#navbar-nav"
+							aria-controls="navbar-nav" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span><i class="fas fa-bars"></i></span>
+						</button>
+						<div class="collapse navbar-collapse tm-nav" id="navbar-nav">
+							<ul class="navbar-nav text-uppercase">
+								<li class="nav-item active"><a class="nav-link tm-nav-link"
+									href="/">Home </a></li>
+								<li class="nav-item "><a class="nav-link tm-nav-link"
+									href="/jobs">Jobs</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
 			</div>
 
 			<div class="tm-row">
 				<div class="tm-col-left">
 					<section class="tm-content"
 						style="max-width: 80%; padding-left: 20px;">
+						<div class="row"></div>
 						<div class="row">
-						
-						</div>
-						<div class="row">
-							<h2 class="mb-5 tm-content-title" th:text="${title}"></h2>
-						<p class="mb-5" th:text="${description}"></p>
+							<h2 class="mb-12 tm-content-title" th:text="${job.name}"></h2>
+
+
+							<div class="col-md-12">
+								<span>ID: </span><span th:text="${job.id}"></span>
+							</div>
+							<div class="col-md-12">
+								<span>Status: </span><span th:text="${job.status}"></span>
+							</div>
+							<div class="col-md-12">
+								<span>Created: </span><span th:text="${job.created}"></span>
+							</div>
+							<div class="col-md-12">
+								<span>Target: </span><span th:text="${job.destHost}"></span><span>:</span><span
+									th:text="${job.destPort}"></span>
+							</div>
+							<div class="col-md-12">
+								<span>PPS: </span><span th:text="${job.pps}"></span>
+							</div>
+							<div class="col-md-12">
+								<span>Packets to be sent: </span><span
+									th:text="${job.totalPackets}"></span>
+							</div>
+
 						</div>
 					</section>
 				</div>
 				<main class="tm-col-right">
 					<section class="tm-content" style="max-width: 100%;">
-				
-						<form action="/create" method="post">
-						  <div class="form-row">
-  <div class="form-group col-md-8">
-    <label for="exampleInputEmail1">IPFIX collector address</label>
-    <input type="text" class="form-control" name="destHost" id="destHost" aria-describedby="emailHelp" placeholder="10.0.0.2">
-    <small id="emailHelp" class="form-text text-muted">The IP address of the host which should receive the packets</small>
-  </div>
-  <div class="form-group col-md-4">
-    <label for="exampleInputPassword1">IPFIX collector port</label>
-    <input type="password" class="form-control" name="destPort" id="destPort" placeholder="4739">
-  </div>
-  </div>
-      <div class="form-group col-md-12">
-    <label for="exampleFormControlSelect1">Select data template</label>
-    <select class="form-control" id="destInput">
-      <option>L2IP</option>
-    </select>
-  </div>
-  <!-- 
-  </div>
-    <div class="form-group">
-    <label for="exampleInputPassword1">Observation Domain ID</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="1">
-  </div>
-   -->
 
-  <div style="padding-top: 20px; padding-bottom: 20px;">
-  <div class="form-check">
-    <input type="checkbox" class="form-check-input" id="doUseOptionTemplate">
-    <label class="form-check-label" for="exampleCheck1">Include OptionsTemplate</label>
-  </div>
-  <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="doSrcRandom" checked disabled>
-  <label class="form-check-label" for="defaultCheck2">
-    Randomize data src IP address
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="checkbox" value="" id="DoDstRandom" checked disabled>
-  <label class="form-check-label" for="defaultCheck2">
-        Randomize data dst IP address
-  </label>
-</div>
-</div>
-						  <div class="form-row">
 
-  <div class="form-group col-md-6">
-    <label for="destPPS">Packets per second</label>
-    <input type="password" class="form-control" name="destPPS" id="destPPS" placeholder="0">
-  </div>
-    <div class="form-group col-md-6">
-    <label for="destTotalPackets">Total packets to be sent</label>
-    <input type="email" class="form-control" name="destTotalPackets" id="destTotalPackets" aria-describedby="emailHelp" placeholder="0">
-    <small id="emailHelp" class="form-text text-muted">Total amount of packets that should be sent. Enter 0 for sending packets until process is stopped.</small>
-  </div>
-  </div>
-<div class="col-md-12" style="padding-top:20px">
-  <button type="submit" class="btn btn-primary" style="width:100%"> <i class="fa fa-play"></i> Start generating packets</button>
-  </div>
-</form>
-						
+
 						<div class="table-responsive fixed-table-body">
-							<table class="table table-bordered table-hover table-striped"
-								style="word-break: break-word; background: white;">
-							
-								<tbody>
-									<tr th:each="entry : ${data}">
-										<td th:text="${entry.key}">Key</td>
-										<td th:text="${entry.value}">Value</td>
-									</tr>
-								</tbody>
-							</table>
+							<div id="tableContainer" style="color: white"></div>
 						</div>
-						
+
 					</section>
 				</main>
 			</div>
 		</div>
 
 		<div class="tm-row">
-			<div class="tm-col-left" style="margin-left: 20px">
-			
-
-			</div>
+			<div class="tm-col-left" style="margin-left: 20px"></div>
 			<div class="tm-col-right tm-col-footer">
 				<footer class="tm-site-footer text-right">
-					<p class="mb-0" style="font-size: 10px">Developed by 
-			  <a  href="https://wenisch.tech">Jean-Fabian Wenisch | wenisch.tech</a></p>
+					<p class="mb-0" style="font-size: 10px">
+						Developed by <a href="https://wenisch.tech">Jean-Fabian
+							Wenisch | wenisch.tech</a>
+					</p>
 				</footer>
 			</div>
 		</div>
@@ -176,10 +162,10 @@ https://templatemo.com/tm-550-diagoona
 		</div>
 	</div>
 
-	<script src="js/jquery-3.4.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.backstretch.min.js"></script>
-	<script src="js/templatemo-script.js"></script>
+	<script src="/js/jquery-3.4.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/jquery.backstretch.min.js"></script>
+	<script src="/js/templatemo-script.js"></script>
 </body>
-<script src="js/index.js"></script>
+<script src="/js/index.js"></script>
 </html>
