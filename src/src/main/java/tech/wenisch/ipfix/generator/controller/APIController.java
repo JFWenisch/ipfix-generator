@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
+import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobHistoryEntry;
 import tech.wenisch.ipfix.generator.service.IPFIXGeneratorService;
 import tech.wenisch.ipfix.generator.threads.IPFIXGeneratorJob;
 
@@ -25,7 +26,7 @@ public class APIController {
 	}
 	
 	@GetMapping("/api/jobs/{id}/history")
-	public List<String> jobDetails(@PathVariable("id") String jobId, HttpServletRequest request, Model model)
+	public List<IPFIXGeneratorJobHistoryEntry> jobDetails(@PathVariable("id") String jobId, HttpServletRequest request, Model model)
 	{ 
 		return ipfixGeneratorService.getJobById(jobId).getHistory();
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobHistoryEntry;
 import tech.wenisch.ipfix.generator.datastructures.IPFIXGeneratorJobRequest;
 import tech.wenisch.ipfix.generator.datastructures.ipfix.L2IPDataRecord;
 import tech.wenisch.ipfix.generator.datastructures.ipfix.MessageHeader;
@@ -24,7 +25,7 @@ public class IPFIXGeneratorJob implements Runnable {
 	long pps;
 	int totalPackets;
 	int packetsSend;
-	List <String> history = new ArrayList<>();
+	List <IPFIXGeneratorJobHistoryEntry> history = new ArrayList<IPFIXGeneratorJobHistoryEntry>();
 
 
 	private volatile boolean active = true;
@@ -67,7 +68,11 @@ public class IPFIXGeneratorJob implements Runnable {
 
 			DatagramPacket dp = new DatagramPacket(mh.getBytes(), mh.getBytes().length, InetAddress.getByName(destHost),
 					destPort);
-			history.add(new Date().toString() + " sending "+ mh);
+			
+		
+		
+		
+			history.add(new IPFIXGeneratorJobHistoryEntry(packetsSend, new Date().toString() , "Sending",l2ip.getSourceIPv4Address().toString(), 	l2ip.getSourceTransportPort(),	l2ip.getDestinationIPv4Address().toString(),	l2ip.getDestinationTransportPort(),mh.toString()));
 				System.out.println("Sending: " + mh);
 			socket.send(dp);
 
@@ -85,11 +90,11 @@ public class IPFIXGeneratorJob implements Runnable {
 		}
 		this.status="Completed";
     }
-    public List<String> getHistory() {
+    public List<IPFIXGeneratorJobHistoryEntry> getHistory() {
 		return history;
 	}
 
-	public void setHistory(List<String> history) {
+	public void setHistory(List<IPFIXGeneratorJobHistoryEntry> history) {
 		this.history = history;
 	}
 

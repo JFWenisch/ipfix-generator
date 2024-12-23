@@ -18,11 +18,11 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <script>
 	$(document)
 			.ready(
 					function() {
+						var lastEntryCount = 0;
 
 						function updateTable() {
 							$
@@ -32,24 +32,40 @@
 															.split("/").pop()
 													+ '/history',
 											function(data) {
-												var table = "<ul class='list-group overflow-scroll' style='height: 100%;color:black'>";
-												$
-														.each(
-																data,
-																function(index,
-																		historyitem) {
-
-																	table += "	  <li class='list-group-item' style='height:50px;font-size:10px'>"
-																			+ historyitem
-																			+ "</li>"
-																});
-												table += "</ul>";
-												$("#tableContainer")
-														.html(table);
+												var tableBody = $("#logTable tbody");
+												if (data.length > lastEntryCount) {
+													for (var i = lastEntryCount; i < data.length; i++) {
+														var details = data[i].details;
+														var truncatedDetails = details.length > 30 ? details
+																.substring(0,
+																		30)
+																+ "..."
+																: details;
+														var row = "<tr><td>"
+																+data[i].packetsSend
+																+ "</td><td>"
+																+ data[i].date
+																+ "</td><td>"
+																+ data[i].sourceIP +":"+  data[i].sourcePort
+																+ "</td><td>"
+																+ data[i].destIP +":"+  data[i].destPort
+																+ "</td><td>"
+																+ truncatedDetails
+																+ " <a href='#' class='read-more' data-fulltext='" + details + "'>Read more</a></td></tr>";
+														tableBody.append(row);
+													}
+													lastEntryCount = data.length;
+												}
 											});
 						}
 
-						// Call the updateTable function every 10 seconds (10000 milliseconds)
+						$(document).on("click", ".read-more", function(event) {
+							event.preventDefault();
+							var fullText = $(this).data("fulltext");
+							$(this).parent().text(fullText);
+						});
+
+						// Call the updateTable function every 2 seconds (2000 milliseconds)
 						setInterval(updateTable, 2000);
 
 						// Initial call to populate the table immediately
@@ -129,13 +145,25 @@
 						</div>
 					</section>
 				</div>
-				<main class="tm-col-right">
+				<main class="tm-col-right" style="width: 65%">
 					<section class="tm-content" style="max-width: 100%;">
 
 
 
-						<div class="table-responsive fixed-table-body">
-							<div id="tableContainer" style="color: white"></div>
+						<div class="table-responsive fixed-table-body" style="display: block; max-height: 550px; overflow-y: auto;">
+							<table id="logTable" class="table table-striped table-responsive fixed-table-body" style="background:white">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Date</th>
+										<th>Source</th>
+										<th>Destination</th>
+										<th>Details</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
 						</div>
 
 					</section>
