@@ -102,10 +102,17 @@
 						</button>
 						<div class="collapse navbar-collapse tm-nav" id="navbar-nav">
 							<ul class="navbar-nav text-uppercase">
-								<li class="nav-item active"><a class="nav-link tm-nav-link"
+								<li class="nav-item"><a class="nav-link tm-nav-link"
 									href="/">Home </a></li>
-								<li class="nav-item "><a class="nav-link tm-nav-link"
+									 <ol class="breadcrumb" style="background:transparent;padding: inherit">
+								<li class="breadcrumb-item "><a class="nav-link tm-nav-link"
 									href="/jobs">Jobs</a></li>
+									    <li class="breadcrumb-item active" aria-current="page" style="display:inline-flex;" >
+									    <a class="nav-link tm-nav-link"
+									href="#"  th:text="${job.id}"></a>
+									</li>
+									  </ol>
+							
 							</ul>
 						</div>
 					</nav>
@@ -118,28 +125,35 @@
 						style="max-width: 80%; padding-left: 20px;">
 						<div class="row"></div>
 						<div class="row">
-							<h2 class="mb-12 tm-content-title" th:text="${job.name}"></h2>
+							<div class="col-md-12">
+						<span class="badge badge-primary col-md-4" th:text="${job.status}"></span>
+						</div>
+							<h2 class="col-md-12 tm-content-title" th:text="${job.name}"></h2>
 
 
-							<div class="col-md-12">
-								<span>ID: </span><span th:text="${job.id}"></span>
+					<div class="col-md-12">
+								<span style="font-size:10px">Created </span><span style="font-size:10px" th:text="${job.created}"></span>
 							</div>
 							<div class="col-md-12">
-								<span>Status: </span><span th:text="${job.status}"></span>
+								<br>
+								<br>
+							</div>
+						
+							
+								<div class="col-md-12">
+									
+									 <input type="text" class="form-control"   style="background:transparent" th:value="${job.destHost}" readonly>
+							<small class="form-text text-muted">Destination for IPFIX Packets</small>
+							</div>
+								<div class="col-md-12">
+									
+									 <input type="text" class="form-control"   style="background:transparent" th:value="${job.pps}" readonly>
+							<small class="form-text text-muted">Packets per seconds.</small>
 							</div>
 							<div class="col-md-12">
-								<span>Created: </span><span th:text="${job.created}"></span>
-							</div>
-							<div class="col-md-12">
-								<span>Target: </span><span th:text="${job.destHost}"></span><span>:</span><span
-									th:text="${job.destPort}"></span>
-							</div>
-							<div class="col-md-12">
-								<span>PPS: </span><span th:text="${job.pps}"></span>
-							</div>
-							<div class="col-md-12">
-								<span>Packets to be sent: </span><span
-									th:text="${job.totalPackets}"></span>
+									
+									 <input type="text" class="form-control" id="destTotalPackets"  style="background:transparent" th:value="${job.totalPackets}" readonly>
+							<small class="form-text text-muted">Total amount of packets that should be sent.</small>
 							</div>
 
 						</div>
@@ -150,8 +164,11 @@
 
 
 
+							<h2 class="col-md-12 tm-content-title">History</h2>
+						
+	
 						<div class="table-responsive fixed-table-body" style="display: block; max-height: 550px; overflow-y: auto;">
-							<table id="logTable" class="table table-striped table-responsive fixed-table-body" style="background:white">
+							<table id="logTable" class="table table-striped table-responsive fixed-table-body" style="background:white;font-size:10px;width:100%">
 								<thead>
 									<tr>
 										<th>#</th>
