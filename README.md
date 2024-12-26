@@ -1,4 +1,4 @@
-# ipfix-generator ![Build](https://github.com/JFWenisch/ipfix-generator/actions/workflows/build.yml/badge.svg) ![Version](https://img.shields.io/github/v/release/jfwenisch/ipfix-generator) ![License](https://img.shields.io/github/license/jfwenisch/ipfix-generator) ![Size](https://img.shields.io/github/repo-size/jfwenisch/ipfix-generator) 
+# ipfix-generator ![Build](https://github.com/JFWenisch/ipfix-generator/actions/workflows/build.yml/badge.svg) ![Version](https://img.shields.io/github/v/release/jfwenisch/ipfix-generator) ![License](https://img.shields.io/github/license/jfwenisch/ipfix-generator) ![Size](https://img.shields.io/github/repo-size/jfwenisch/ipfix-generator)  [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/jfwenisch)](https://artifacthub.io/packages/search?repo=jfwenisch)
 ## Overview
 This IPFIX (IP Flow Information Export) Generator is a tool designed to create and send IPFIX traffic for testing, demonstration, and analysis purposes. It simulates network flow data by generating IPFIX packets, which can be used to test network monitoring systems, analyze network performance, and ensure the accuracy of flow data collection. It features a graphical user interface (GUI) for ease of use and can also be accessed via its API and REST endpoints.
 
@@ -32,6 +32,18 @@ This IPFIX (IP Flow Information Export) Generator is a tool designed to create a
 
 3. **Set Parameters and Create a New Generator Job** : Use the GUI to set the desired parameters and create a new generator job. The interface is user-friendly and allows you to configure various parameters for IPFIX message generation.
 
+## Installation [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/jfwenisch)](https://artifacthub.io/packages/search?repo=jfwenisch) 
+The IPFIX Generator tool is available via Helm. Follow these steps to install it:
+
+1. **Add the Helm repository**:
+   ```bash
+   helm repo add jfwenisch https://charts.wenisch.tech
+   ```
+
+2. **Install the IPFIX Generator**:
+   ```bash
+   helm install ipfix-generator jfwenisch/ipfix-generator
+   ```
 ## Contributing
 Contributions are welcome! Please fork the repository and submit pull requests.
 
