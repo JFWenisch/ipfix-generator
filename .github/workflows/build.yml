@@ -80,6 +80,7 @@ jobs:
 
     - name: Package Helm chart
       run: |
+        helm package chart/ --destination ./release
         git clone https://$GITHUBTOKEN@github.com/JFWenisch/charts.git
         cp ./release/*.tgz charts/ipfix-generator/
         cd charts
