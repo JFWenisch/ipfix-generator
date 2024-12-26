@@ -96,7 +96,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ipfix-generator-jar
-        path: /src/target/ipfix-generator-${{needs.version.outputs.tag}}.jar
+        path: ./src/target/ipfix-generator-${{needs.version.outputs.tag}}.jar
 
     - name: Upload Helm chart artifact
       uses: actions/upload-artifact@v4
