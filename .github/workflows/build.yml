@@ -86,7 +86,7 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Add ipfix-generator chart version ${{ needs.version.outputs.tag }}"
+        git commit -m "Add ipfix-generator chart in version ${{ needs.version.outputs.tag }}"
         git push origin main
 
     - name: Upload JAR artifact
