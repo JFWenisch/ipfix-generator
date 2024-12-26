@@ -51,15 +51,10 @@ jobs:
       uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       with:
         images: ghcr.io/jfwenisch/ipfix-generator
-        
-    - name: list files root
-      run: ls -l
-      
-    - name: list files target
-      run: cd src/target && ls -l
       
     - name: Build and push Docker image
       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      if: github.ref == 'refs/heads/main'
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
@@ -76,12 +71,23 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add chart/Chart.yaml
-        git commit -m "Update Helm chart appVersion to ${{ needs.version.outputs.tag }}"
+        git commit -m "[skip ci] Update Helm chart appVersion to ${{ needs.version.outputs.tag }} "
         git push origin ${{ github.ref }}
 
 
     - name: Package Helm chart
       run: helm package chart/ --destination ./release
+
+    - name: Clone charts repository
+      run: |
+        git clone https://github.com/JFWenisch/charts.git
+        cp ./release/*.tgz charts/ipfix-generator/
+        cd charts
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Add ipfix-generator chart version ${{ needs.version.outputs.tag }}"
+        git push origin main
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
