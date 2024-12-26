@@ -129,6 +129,6 @@ jobs:
         tag: ${{needs.version.outputs.tag}}
         name: Release ${{needs.version.outputs.tag}}
         body: ${{needs.version.outputs.changelog}}
-        files: |
+        artifacts: |
           ./release/src/target/ipfix-generator-${{needs.version.outputs.tag}}.jar
           ./release/*.tgz
