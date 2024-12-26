@@ -64,7 +64,9 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Update Helm chart version
-      run: yq eval '.appVersion = "${{ needs.version.outputs.tag }}"' -i chart/Chart.yaml
+      run:  |
+        yq eval '.appVersion = "${{ needs.version.outputs.tag }}"' -i chart/Chart.yaml
+        yq eval '.version = "${{ needs.version.outputs.tag }}"' -i chart/Chart.yaml
 
     - name: Commit and push updated Helm chart
       run: |
@@ -75,19 +77,17 @@ jobs:
         git push origin ${{ github.ref }}
 
 
-    - name: Package Helm chart
-      run: helm package chart/ --destination ./release
 
-    - name: Clone charts repository
+    - name: Package Helm chart
       run: |
-        git clone https://github.com/JFWenisch/charts.git
+        git clone https://$GITHUBTOKEN@github.com/JFWenisch/charts.git
         cp ./release/*.tgz charts/ipfix-generator/
         cd charts
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
         git commit -m "Add ipfix-generator chart in version ${{ needs.version.outputs.tag }}"
-        git push origin main
+        git push https://$GITHUBTOKEN@github.com/JFWenisch/charts.git main
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
